@@ -39,12 +39,20 @@ export function useRegister() {
       if (error) throw new Error(error.message);
       if (!data.user) throw new Error("Sign up failed");
 
+      // If email confirmation is on, session will be null — sign in immediately
+      let session = data.session;
+      if (!session) {
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError) throw new Error("Account created! Please log in.");
+        session = signInData.session;
+      }
+
       // Seed default data via Express API
       const res = await fetch("/api/seed", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${data.session?.access_token}`,
+          Authorization: `Bearer ${session?.access_token}`,
         },
       });
       if (!res.ok && res.status !== 409) {
