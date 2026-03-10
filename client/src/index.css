@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Core Colors based on requested aesthetic converted to HSL */
+  --background: 221 57% 5%;       /* #060b16 */
+  --foreground: 210 40% 98%;      /* #f8f9fa */
+  
+  --card: 221 54% 14%;            /* #101c35 */
+  --card-foreground: 210 40% 98%;
+  --card-soft: 220 57% 7%;        /* rgba(8, 15, 29, 0.5) equivalent */
+  
+  --primary: 217 100% 75%;        /* #7fb0ff */
+  --primary-foreground: 221 57% 5%;
+  
+  --success: 148 64% 50%;         /* #2fd17b */
+  --success-foreground: 221 57% 5%;
+  
+  --destructive: 354 100% 68%;    /* #ff5d6c */
+  --destructive-foreground: 210 40% 98%;
+  
+  --warning: 35 100% 64%;         /* #ffb347 */
+  --warning-foreground: 221 57% 5%;
+  
+  --accent: 259 100% 79%;         /* #b592ff */
+  --accent-foreground: 221 57% 5%;
+
+  --muted: 221 40% 30%;
+  --muted-foreground: 215 20% 65%;
+
+  --border: 218 52% 66%;          /* Base for rgba(122,155,214,.13) */
+
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased min-h-screen selection:bg-primary/30 selection:text-primary;
+    font-family: var(--font-sans);
+    /* Soft ambient background gradient */
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(127, 176, 255, 0.03), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(47, 209, 123, 0.03), transparent 25%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-card/60 backdrop-blur-xl border border-border/15 shadow-[0_8px_32px_rgba(0,0,0,0.3)] rounded-2xl;
+  }
+  
+  .glass-panel-soft {
+    @apply bg-card-soft/80 backdrop-blur-md border border-white/5 rounded-xl;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  .text-gradient-success {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-success to-emerald-400;
+  }
+
+  .text-gradient-danger {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-destructive to-rose-400;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] hover:border-border/30;
+  }
+}
+
+/* Custom Animations */
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(47, 209, 123, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(47, 209, 123, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 209, 123, 0); }
+}
+
+.animate-pulse-green {
+  animation: pulse-green 2s infinite;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted/50 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted;
+}
